@@ -1,0 +1,53 @@
+<?php
+
+require('./dbconn.php');
+
+$page_title = "Reach Us";
+
+$name  = $phone = $email = $subject = $msg = "";
+
+if (isset($_POST['submit'])) {
+
+    if (empty($_POST['name'])) {
+        $name_err = "Full Name is Required";
+    } else {
+        $name = $_POST['name'];
+    }
+
+    if (empty($_POST['phone'])) {
+        $phone_err = "Phone No is Required";
+    } else {
+        $phone = $_POST['phone'];
+    }
+
+    if (empty($_POST['email'])) {
+        $email_err = "Email is Required";
+    } else {
+        $email = $_POST['email'];
+    }
+
+    if (empty($_POST['subject'])) {
+        $subject_err = "Subject is Required";
+    } else {
+        $subject = $_POST['subject'];
+    }
+
+    if (empty($_POST['message'])) {
+        $msg_err = "Message is Required";
+    } else {
+        $msg = $_POST['message'];
+    }
+
+
+    if (!empty($name) && !empty($phone) && !empty($email) && !empty($subject) && !empty($msg)) {
+
+        $query = "INSERT INTO `contact_us`(`cus_name`, `cus_email`, `cus_phone_no`, `cus_subject`, `cus_message`) 
+        VALUES('{$name}' , '{$email}' , {$phone} , {$subject} , '{$msg}')";
+
+        if (mysqli_query($conn, $query)) {
+            echo "<alert>Your message has been sent. Thank you!</alert>";
+            header('Location:index.php');
+        }
+    }
+}
+?>
